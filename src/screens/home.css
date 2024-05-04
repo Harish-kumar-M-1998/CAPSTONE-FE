@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&display=swap');
+*{
+  font-family: "Courgette", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.card{
+  height:100%
+}
+.card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* Adding a shadow effect */
+  }
+  .card-img-top{
+    height: 300px; /* Set a fixed height for the images */
+  
+  }

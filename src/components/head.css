@@ -1,0 +1,12 @@
+.custom-input{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.custom-select{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.button{
+    float: right;
+    margin-left: 5px;
+}
