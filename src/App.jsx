@@ -8,6 +8,7 @@ import Login from "./screens/Login.jsx";
 import Contact from "./screens/Contact.jsx";
 import CleaningServicesAbout from "./screens/CleaningServicesAbout .jsx";
 import LandingPage from "./components/LandingPage.jsx";
+import RatingAndReview from "./components/RatingAndReview.jsx";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/rating-and-review" element={<RatingAndReview />} />
           <Route path="/about" element={<CleaningServicesAbout />} />
         </Routes>
       </BrowserRouter>
