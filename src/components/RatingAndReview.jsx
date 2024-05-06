@@ -153,13 +153,13 @@ const RatingAndReview = () => {
                                 <Card.Title style={{
                                     fontFamily: 'Arial, sans-serif',
                                     fontWeight: 'bold',
-                                    fontSize: '1.2rem',
+                                    fontSize: '2rem',
                                     color: '#333'
                                 }}>{review.name}</Card.Title>
                                 <Card.Subtitle className="mb-2 text-muted">{review.email}</Card.Subtitle>
                                 <Card.Text style={{
                                     fontFamily: 'Arial, sans-serif',
-                                    fontSize: '1rem',
+                                    fontSize: '1.5rem',
                                     color: 'red'
                                 }}> {review.service}</Card.Text>
                                 <Card.Text style={{
