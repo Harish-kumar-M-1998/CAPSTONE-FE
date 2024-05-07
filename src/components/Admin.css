@@ -1,0 +1,27 @@
+/* Admin.css */
+.tab-list {
+    background-color: #f8f9fa; /* Light gray background */
+    padding: 10px;
+    border-bottom: 2px solid #007bff; /* Blue border */
+  }
+  
+  .tab {
+    color: #007bff; /* Blue text color */
+    border: none;
+    background-color: transparent;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tab:hover {
+    background-color: #cce5ff; /* Light blue background on hover */
+  }
+  
+  .tab-panel {
+    padding: 20px;
+    border: 1px solid #007bff; /* Blue border */
+    border-top: none;
+  }
+  

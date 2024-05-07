@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import StripeCheckout from 'react-stripe-checkout';
+import Swal from 'sweetalert2';
 
 const Bookingscreen = () => {
   const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const Bookingscreen = () => {
   const selectedDate = searchParams.get('date');
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const fetchServiceDetails = async () => {
@@ -38,11 +40,11 @@ const Bookingscreen = () => {
     }
   }, [serviceid, navigate]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (token) => {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Check if the user has already booked the service for the selected date
       const existingBookingResponse = await axios.get(`http://localhost:3000/api/bookings/bookings/checkAvailability`, {
         params: {
@@ -50,14 +52,14 @@ const Bookingscreen = () => {
           serviceDate: selectedDate
         }
       });
-  
+
       if (existingBookingResponse.data.length > 0) {
         // If there is an existing booking, show an error message and return
-        setError(<h3 className='text-center my-5' style ={{color:'blue'}}>'You have already booked this service for the selected date'</h3>);
+        setError('You have already booked this service for the selected date');
         setLoading(false);
         return;
       }
-  
+
       // Assuming the booking data structure and API endpoint
       const bookingData = {
         username,
@@ -65,26 +67,30 @@ const Bookingscreen = () => {
         serviceId: serviceid,
         serviceDate: selectedDate,
         totalAmount: service.price,
-        transactionId: '1234', // You can set this later when payment is implemented
+        transactionId: token.id, // Token ID from Stripe
         status: 'booked'
       };
+
       // Assuming the API endpoint for booking creation
       const response = await axios.post('http://localhost:3000/api/bookings/bookings', bookingData);
       console.log(response.data); // Log the created booking
       setLoading(false);
-      // Show success toast message
-      toast.success('Booking successful! Redirecting to payment page...');
-      // Redirect to payment page after 3 seconds
-      setTimeout(() => {
-        navigate('/payment'); // Replace '/payment' with your actual payment page route
-      }, 3000);
+      setShowSuccess(true);
+      Swal.fire({
+        icon: 'success',
+        title: 'Booking successful!',
+        text: 'Redirecting to home...',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
+        navigate('/bookings');
+      });
     } catch (err) {
       setError('Error creating booking');
       setLoading(false);
       console.error('Error creating booking:', err);
     }
   };
-  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -123,13 +129,23 @@ const Bookingscreen = () => {
               <div className="row mt-4">
                 <div className="col-md-12" style={{ textAlign: 'right' }}>
                   {/* Call handleSubmit when Pay Now button is clicked */}
-                  <button className="btn btn-primary" onClick={handleSubmit}>Pay Now</button>
+                  <StripeCheckout
+                    amount={service.price * 100} // Amount in cents
+                    token={handleSubmit} // Submit callback
+                    currency='INR'
+                    stripeKey="pk_test_51PDekiSGfzm40G05nKXfRVf4kCmx3sxrnOQMoA9Emand84QnAxlkX8tLhf4Ulgrtil3u81BiXxuAuCgToPnW6J3e00loFWquYF"
+                  />
                 </div>
               </div>
             </>
           )}
         </div>
       </div>
+      {showSuccess && (
+        <div className="alert alert-success mt-4" role="alert">
+          Booking successful! Redirecting to home...
+        </div>
+      )}
     </div>
   );
 };

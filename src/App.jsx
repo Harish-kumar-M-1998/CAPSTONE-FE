@@ -10,7 +10,9 @@ import CleaningServicesAbout from "./screens/CleaningServicesAbout .jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import RatingAndReview from "./components/RatingAndReview.jsx";
 import Footer from "./components/Footr.jsx";
-import Checklist from "./components/Checklist.jsx";
+
+import Profile from "./components/Profile.jsx";
+import Admin from "./components/Admin.jsx";
 
 function App() {
   return (
@@ -26,7 +28,9 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/rating-and-review" element={<RatingAndReview />} />
           <Route path="/about" element={<CleaningServicesAbout />} />
-          <Route path="/checklist" element={<Checklist />} />
+          
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </BrowserRouter>
       <Footer />

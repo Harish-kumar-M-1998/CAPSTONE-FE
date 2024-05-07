@@ -57,43 +57,46 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/rating-and-review">Rating & Review</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/checklist">Checklist</a>
-            </li>
+            
           </ul>
         </div>
 
         <div className="d-flex align-items-center">
           {currentUser ? (
-            <div className="dropdown">
-              <a
-                className="dropdown-toggle d-flex align-items-center hidden-arrow"
-                href="#"
-                id="navbarDropdownMenuAvatar"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style={{
-                  textDecoration: 'none', // Remove underline
-                  color: 'black', // Text color
-                  fontWeight: 'bold', // Bold text
-                  fontSize: '16px', // Font size
-                  padding: '8px 12px', // Padding
-                  borderRadius: '10%', // Rounded corners
-                  backgroundColor: 'beige', // Background color
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Box shadow
-                  transition: 'background-color 0.3s', // Smooth transition
-                }}
-              >
-                <span className="me-2">{currentUser.username}</span>
-              </a>
+            <>
+              {currentUser.isAdmin && (
+                <a href="/admin" className="btn btn-primary me-2 mx-2">Admin</a>
+              )}
+              <div className="dropdown">
+                <a
+                  className="dropdown-toggle d-flex align-items-center hidden-arrow"
+                  href="#"
+                  id="navbarDropdownMenuAvatar"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  style={{
+                    textDecoration: 'none', // Remove underline
+                    color: 'black', // Text color
+                    fontWeight: 'bold', // Bold text
+                    fontSize: '16px', // Font size
+                    padding: '8px 12px', // Padding
+                    borderRadius: '10%', // Rounded corners
+                    backgroundColor: 'beige', // Background color
+                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', // Box shadow
+                    transition: 'background-color 0.3s', // Smooth transition
+                  }}
+                >
+                  <span className="me-2">{currentUser.username}</span>
+                </a>
 
-              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
-                <li><a className="dropdown-item" href="#">My profile</a></li>
-                <li><a className="dropdown-item" href="#">Settings</a></li>
-                <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
-              </ul>
-            </div>
+                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+                  <li><a className="dropdown-item" href="/profile">My profile</a></li>
+                  
+                  <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+                </ul>
+              </div>
+            </>
           ) : (
             <>
               <a href="/login" className="btn btn-primary me-2 mx-2">Login</a>
