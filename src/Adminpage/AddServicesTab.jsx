@@ -1,82 +1,100 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const AddServices = () => {
   const [name, setName] = useState('');
   const [availability, setAvailability] = useState('');
   const [price, setPrice] = useState('');
   const [location, setLocation] = useState('');
-  const [image, setImage] = useState(null); // Store the image file
+  const [imageUrl, setImageUrl] = useState('');
   const [description, setDescription] = useState('');
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    try {
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('availability', availability);
-      formData.append('price', price);
-      formData.append('location', location);
-      formData.append('image', image); // Append the image file
-      formData.append('description', description);
-
-      // Send service data to the server to add to the database
-      await axios.post('http://localhost:3000/api/cleaningservices/addCleaningService', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data' // Set content type for form data
-        }
+    // Regular expression to validate URL format
+    const urlPattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+                                   '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+                                   '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+                                   '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+                                   '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+                                   '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    // Check if the provided input is a valid URL
+    if (!urlPattern.test(imageUrl)) {
+      // Show warning message if the URL is not valid
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning',
+        text: 'Please provide a valid image URL',
       });
+      return; // Stop the function execution if the URL is not valid
+    }
+    try {
+      const serviceData = {
+        name,
+        availability,
+        price,
+        location,
+        image: imageUrl,
+        description,
+      };
+
+      await axios.post('http://localhost:3000/api/cleaningservices/addCleaningService', serviceData);
+
+      // Show success message
+      Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: 'Service added successfully!',
+      });
+
       // Reset form fields after successful submission
       setName('');
       setAvailability('');
       setPrice('');
       setLocation('');
-      setImage(null);
+      setImageUrl('');
       setDescription('');
-      setSuccess(true);
     } catch (err) {
-      setError('Error adding service');
+      // Show error message
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Error adding service',
+      });
     }
   };
 
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]); // Store the selected image file
-  };
-
   return (
-    <div>
+    <div className="container">
       <h2>Add Service</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+        <div className="mb-3">
+          <label className="form-label">Name:</label>
+          <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
-        <div>
-          <label>Availability:</label>
-          <input type="text" value={availability} onChange={(e) => setAvailability(e.target.value)} required />
+        <div className="mb-3">
+          <label className="form-label">Availability:</label>
+          <input type="text" className="form-control" value={availability} onChange={(e) => setAvailability(e.target.value)} required />
         </div>
-        <div>
-          <label>Price:</label>
-          <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} required />
+        <div className="mb-3">
+          <label className="form-label">Price:</label>
+          <input type="number" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} required />
         </div>
-        <div>
-          <label>Location:</label>
-          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+        <div className="mb-3">
+          <label className="form-label">Location:</label>
+          <input type="text" className="form-control" value={location} onChange={(e) => setLocation(e.target.value)} />
         </div>
-        <div>
-          <label>Image:</label>
-          <input type="file" onChange={handleImageChange} accept="image/*" required />
+        <div className="mb-3">
+          <label className="form-label">Image URL:</label>
+          <input type="text" className="form-control" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required />
         </div>
-        <div>
-          <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+        <div className="mb-3">
+          <label className="form-label">Description:</label>
+          <textarea className="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
-        {error && <p>{error}</p>}
-        {success && <p>Service added successfully!</p>}
-        <button type="submit">Add Service</button>
+        <button type="submit" className="btn btn-primary">Add Service</button>
       </form>
     </div>
   );

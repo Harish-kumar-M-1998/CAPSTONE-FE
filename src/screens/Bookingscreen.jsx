@@ -41,6 +41,17 @@ const Bookingscreen = () => {
   }, [serviceid, navigate]);
 
   const handleSubmit = async (token) => {
+    if (!username || !selectedDate) {
+      // Show alert if username or selectedDate is empty
+      Swal.fire({
+        icon: 'warning',
+        title: 'Please login and select a date',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -54,11 +65,16 @@ const Bookingscreen = () => {
       });
 
       if (existingBookingResponse.data.length > 0) {
-        // If there is an existing booking, show an error message and return
-        setError('You have already booked this service for the selected date');
+        // If there is an existing booking, show a SweetAlert error message
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You have already booked this service for the selected date',
+        });
         setLoading(false);
         return;
       }
+
 
       // Assuming the booking data structure and API endpoint
       const bookingData = {
@@ -83,7 +99,7 @@ const Bookingscreen = () => {
         timer: 2000,
         showConfirmButton: false
       }).then(() => {
-        navigate('/bookings');
+        navigate('/home');
       });
     } catch (err) {
       setError('Error creating booking');
