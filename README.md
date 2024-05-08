@@ -59,7 +59,7 @@ Users can create an account by registering first.
 
 ### 3. Login
 Users will be redirected to the login page after registering .
-
+Remember to login To use  all functionalities.. If you are encountering problems it means to login...
 
 ![Service Browser](screenshots/user/login.png)
 
