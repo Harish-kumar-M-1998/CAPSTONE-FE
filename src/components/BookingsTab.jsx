@@ -52,7 +52,7 @@ const BookingsTab = () => {
         <p>No bookings found</p>
       ) : (
         <Table striped bordered hover>
-          <thead>
+          <thead className='text-center'>
             <tr>
               <th>Serial No</th>
               <th>Service Type</th>
@@ -62,17 +62,17 @@ const BookingsTab = () => {
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className='text-center'>
             {bookings.map((booking, index) => (
               <tr key={booking._id}>
-                <td>{index + 1}</td>
+                <td className='text-center'>{index + 1}</td>
                 <td>{booking.serviceType}</td>
                 <td>{new Date(booking.serviceDate).toLocaleDateString()}</td>
                 <td>{booking.totalAmount}</td>
                 <td>{booking.status}</td>
                 <td>
                   {booking.status !== 'Cancelled' && (
-                    <Button variant="danger" onClick={() => handleCancelBooking(booking._id)}>Cancel</Button>
+                    <Button style ={{float :'right'}} variant="danger" onClick={() => handleCancelBooking(booking._id)}>Cancel</Button>
                   )}
                 </td>
               </tr>

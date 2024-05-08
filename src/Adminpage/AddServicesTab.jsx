@@ -67,8 +67,8 @@ const AddServices = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Add Service</h2>
+    <div className="container" style ={{color :'#2471A3 ',backgroundColor :'#D5F5E3 '}}>
+      <h2 className="text-center my-3" style ={{color :'#2471A3 '}}>Add Service</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Name:</label>

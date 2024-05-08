@@ -6,10 +6,11 @@ import ServicesTab from '../Adminpage/ServicesTab';
 import AddServicesTab from '../Adminpage/AddServicesTab';
 import UsersTab from '../Adminpage/UsersTab';
 import QuoteTab from '../Adminpage/QuoteTab';
-
+import './Admin.css'
 const Admin = () => {
   return (
-    <div className="admin-container">
+    <div className="admin-container" style ={{backgroundColor  :'#D6EAF8 '}}>
+      <h1 className="text-center my-3">Admin Panel</h1>
       <Tabs>
         <TabList>
           <Tab>Bookings</Tab>

@@ -28,7 +28,7 @@ const QuoteTab = () => {
 
   return (
     <div>
-      <h2>Quotes</h2>
+      <h2 className="text-center my-3" >Quotes</h2>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (

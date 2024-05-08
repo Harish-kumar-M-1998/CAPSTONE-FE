@@ -3,8 +3,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2'; // Import SweetAlert
+import 'sweetalert2/dist/sweetalert2.css'; // Import SweetAlert styles
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,39 +14,48 @@ const Login = () => {
     password: Yup.string().required('Password is required'),
   });
 
-  const handleSubmit = ({ email, password }) => {
-    axios.post('http://localhost:3000/api/users/login', { email, password })
-      .then(response => {
-        console.log(response.data); // Log the response data for debugging
-        if (response.status === 200 ) {
-          // Store user information in local storage
-          localStorage.setItem('currentUser', JSON.stringify(response.data));
+  const handleSubmit = async ({ email, password }) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      console.log(response.data); // Log the response data for debugging
   
-          // Navigate to home page
-          navigate('/home');
-          window.location.reload();
-
-          // Show success message
-          toast.success('Login successful');
-        } else if (response.status === 400) {
-          toast.error('Invalid email or password');
-        } else {
-          console.error('Unexpected status code:', response.status);
-          toast.error('Unexpected server response');
-        }
-      })
-      .catch(err => {
-        console.error('Login error:', err);
-        toast.error('You are not registerd');
-        setTimeout(() => {
-          navigate('/register');
-        }, 4000);
+      // Store user information in local storage
+      localStorage.setItem('currentUser', JSON.stringify(response.data));
+  
+      // Show success message using SweetAlert
+      await Swal.fire({
+        icon: 'success',
+        title: 'Login successful',
+        showConfirmButton: false,
+        timer: 2000, // Display the success message for 2 seconds
+        timerProgressBar: true // Show timer progress bar
       });
+  
+      // Navigate to home page after displaying the success message
+      navigate('/home');
+      window.location.reload(); // Refresh the page
+    } catch (error) {
+      console.error('Login error:', error);
+  
+      if (error.response && error.response.status === 400) {
+        // Show error message using SweetAlert
+        await Swal.fire({
+          icon: 'error',
+          title: 'Invalid email or password',
+        });
+      } else {
+        // Show error message using SweetAlert
+        await Swal.fire({
+          icon: 'error',
+          title: 'Unexpected server response',
+        });
+      }
+    }
   };
+  
   
   return (
     <section className="vh-100" style={{ backgroundColor: "#eee" }}>
-      <ToastContainer />
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-lg-12 col-xl-11">

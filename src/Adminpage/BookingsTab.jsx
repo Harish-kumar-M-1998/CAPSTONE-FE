@@ -37,14 +37,14 @@ const BookingsTab = () => {
 
   return (
     <div>
-      <h2>Bookings</h2>
+      <h2 className="text-center my-3" >Bookings</h2>
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
         <Table striped bordered hover>
-          <thead>
+          <thead className='text-center'>
             <tr>
               <th>Serial No</th>
               <th>Username</th>
@@ -56,10 +56,10 @@ const BookingsTab = () => {
               <th>Action</th> {/* Add a column for delete button */}
             </tr>
           </thead>
-          <tbody>
+          <tbody className='text-center'>
             {bookings.map((booking, index) => (
               <tr key={booking._id}>
-                <td>{index + 1}</td>
+                <td >{index + 1}</td>
                 <td>{booking.username}</td>
                 <td>{booking.serviceType}</td>
                 <td>{new Date(booking.serviceDate).toLocaleDateString()}</td>

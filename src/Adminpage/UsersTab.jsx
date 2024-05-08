@@ -53,7 +53,7 @@ const UsersTab = () => {
 
   return (
     <div>
-      <h2>Users</h2>
+      <h2 className="text-center my-3">Users</h2>
       {loading ? (
         <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
@@ -64,17 +64,15 @@ const UsersTab = () => {
         <Row>
           {users.map((user, index) => (
             <Col key={user._id} lg={4} md={6} sm={12} className="mb-3">
-              <Card className="user-card">
+              <Card className="user-card" style={{ height: '100%' }}>
                 <Card.Body>
                   <Card.Title>{user.username}</Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">{user.email}</Card.Subtitle>
                   <Card.Text>{user.isAdmin ? 'Admin' : 'User'}</Card.Text>
                   {!user.isAdmin && ( // Display the buttons only if the user is not an admin
-                    <>
-                      <Button variant="success" className="mr-2" onClick={() => updateUserToAdmin(user._id)}>Make Admin</Button>
-                      <Button variant="danger" onClick={() => deleteUser(user._id)}>Delete User</Button>
-                    </>
+                    <Button variant="success" className="mr-2" onClick={() => updateUserToAdmin(user._id)}>Make Admin</Button>
                   )}
+                  <Button style ={{float :'right'}} variant="danger" onClick={() => deleteUser(user._id)}>Delete User</Button>
                 </Card.Body>
               </Card>
             </Col>
