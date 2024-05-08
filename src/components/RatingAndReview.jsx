@@ -30,7 +30,7 @@ const RatingAndReview = () => {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/rating/all');
+            const response = await axios.get('https://capstone-be-den4.onrender.com/api/rating/all');
             setReviews(response.data);
         } catch (error) {
             console.error('Error fetching reviews:', error);
@@ -59,7 +59,7 @@ const RatingAndReview = () => {
         };
 
         // Submit the form data to the backend API endpoint using Axios
-        axios.post('http://localhost:3000/api/rating/rating', requestData)
+        axios.post('https://capstone-be-den4.onrender.com/api/rating/rating', requestData)
             .then(response => {
                 console.log(response.data); // Log the response data for debugging
                 if (response.status === 201) {

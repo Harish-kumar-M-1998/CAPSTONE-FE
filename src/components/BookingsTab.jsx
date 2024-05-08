@@ -15,7 +15,7 @@ const BookingsTab = () => {
         // Assume the user information is stored in localStorage
         const user = JSON.parse(localStorage.getItem('currentUser'));
         if (user && user.username) {
-          const response = await axios.get(`http://localhost:3000/api/bookings?username=${user.username}`);
+          const response = await axios.get(`https://capstone-be-den4.onrender.com/api/bookings?username=${user.username}`);
           setBookings(response.data);
         }
       } catch (err) {
@@ -30,7 +30,7 @@ const BookingsTab = () => {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await axios.put(`http://localhost:3000/api/bookings/${bookingId}`, { status: 'Cancelled' });
+      await axios.put(`https://capstone-be-den4.onrender.com/api/bookings/${bookingId}`, { status: 'Cancelled' });
       // After cancellation, refetch the bookings to update the UI
       fetchUserBookings();
     } catch (err) {

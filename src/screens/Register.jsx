@@ -17,7 +17,7 @@ const Signup = () => {
   });
 
   const handleSubmit = ({ username, email, password, repeatPassword }) => {
-    axios.post('http://localhost:3000/api/users/register', {
+    axios.post('https://capstone-be-den4.onrender.com/api/users/register', {
       username,
       email,
       password,

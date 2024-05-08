@@ -12,7 +12,7 @@ const BookingsTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:3000/api/bookings/bookings');
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/bookings/bookings');
         setBookings(response.data);
       } catch (err) {
         setError('Error fetching bookings');
@@ -26,7 +26,7 @@ const BookingsTab = () => {
 
   const deleteBooking = async (bookingId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/bookings/${bookingId}`);
+      await axios.delete(`https://capstone-be-den4.onrender.com/api/bookings/${bookingId}`);
       // Update the bookings list after successful deletion
       const updatedBookings = bookings.filter(booking => booking._id !== bookingId);
       setBookings(updatedBookings);

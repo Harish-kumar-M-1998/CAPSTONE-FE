@@ -16,7 +16,7 @@ const Login = () => {
 
   const handleSubmit = async ({ email, password }) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
+      const response = await axios.post('https://capstone-be-den4.onrender.com/api/users/login', { email, password });
       console.log(response.data); // Log the response data for debugging
   
       // Store user information in local storage

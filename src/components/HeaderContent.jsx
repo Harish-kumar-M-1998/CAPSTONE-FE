@@ -96,7 +96,7 @@ const HeaderContent = () => {
     // Handle form submission here
     
     // Example: Submitting the form data to an API endpoint using axios
-    axios.post('http://localhost:3000/api/quote/quote', formData)
+    axios.post('https://capstone-be-den4.onrender.com/api/quote/quote', formData)
       .then(response => {
         console.log(response.data); // Log the response data for debugging
         if (response.status === 201) {

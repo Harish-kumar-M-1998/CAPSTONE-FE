@@ -12,7 +12,7 @@ const UsersTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:3000/api/users/users');
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/users/users');
         setUsers(response.data);
       } catch (err) {
         setError('Error fetching users');
@@ -26,7 +26,7 @@ const UsersTab = () => {
 
   const updateUserToAdmin = async (userId) => {
     try {
-      await axios.put(`http://localhost:3000/api/users/${userId}`, { isAdmin: true });
+      await axios.put(`https://capstone-be-den4.onrender.com/api/users/${userId}`, { isAdmin: true });
       // Update the users list after successful update
       const updatedUsers = users.map(user => {
         if (user._id === userId) {
@@ -42,7 +42,7 @@ const UsersTab = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/users/${userId}`);
+      await axios.delete(`https://capstone-be-den4.onrender.com/api/users/${userId}`);
       // Remove the deleted user from the users list
       const updatedUsers = users.filter(user => user._id !== userId);
       setUsers(updatedUsers);
