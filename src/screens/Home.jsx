@@ -8,6 +8,8 @@ import HeaderContent from '../components/HeaderContent';
 import WhyUsSection from '../components/WhyUsSection';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import LoadingComponent from '../message/LoadingComponent';
+import ErrorPage from '../message/ErrorPage';
 
 const Home = () => {
   const [cleaningServices, setCleaningServices] = useState([]);
@@ -18,15 +20,19 @@ const Home = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availabilityFilter, setAvailabilityFilter] = useState(null);
   const [searchInput, setSearchInput] = useState('');
-  const [priceOrder, setPriceOrder] = useState(null); // State for price order
+  const [priceOrder, setPriceOrder] = useState(null);
   const navigate = useNavigate();
-
+  const user = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     const fetchCleaningServices = async () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get('https://capstone-be-den4.onrender.com/api/cleaningservices/getAllCleaningServices/');
+        const response = await axios.get('http://localhost:3000/api/cleaningservices/getAllCleaningServices/',{
+          headers: {
+              Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+          },
+      });
         setCleaningServices(response.data);
         setLoading(false);
       } catch (err) {
@@ -66,15 +72,13 @@ const Home = () => {
   };
 
   const handlePriceOrderChange = (event) => {
-    setPriceOrder(event.target.value); // Update price order state
+    setPriceOrder(event.target.value);
   };
 
   const filteredCleaningServices = cleaningServices.filter(service => {
-    // Filter by availability
     if (availabilityFilter && service.availability !== availabilityFilter) {
       return false;
     }
-    // Filter by search input
     if (
       !searchInput ||
       service.availability.toLowerCase().includes(searchInput.toLowerCase()) ||
@@ -85,7 +89,6 @@ const Home = () => {
     }
     return false;
   }).sort((a, b) => {
-    // Sort by price if price order is selected
     if (priceOrder === 'lowToHigh') {
       return a.price - b.price;
     } else if (priceOrder === 'highToLow') {
@@ -95,46 +98,53 @@ const Home = () => {
   });
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingComponent />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <ErrorPage error={error} />;
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{
+      background: 'linear-gradient(to bottom right, #a0c4ff, #ffffff)'
+    }
+    
+    } >
       <HeaderContent />
       <WhyUsSection />
-      <h2 className="d-flex justify-content-center my-5" style={{ color: '#6495ED' }}>Cleaning Services</h2>
+      <h2 className="text-center my-5" style={{ color: '#6495ED' }}>Cleaning Services</h2>
 
-      <div className="d-flex justify-content-between align-items-center">
-        <DatePicker
-          selected={selectedDate}
-          onChange={handleDateChange}
-          placeholderText="Select Date"
-          dateFormat="dd-MM-yyyy"
-          className="form-control"
-          style={{ marginTop: '20px', marginBottom: '20px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        />
-        <input
-          type="text"
-          value={searchInput}
-          onChange={handleSearchInputChange}
-          placeholder="Search by service, availability, or location"
-          className="form-control"
-          style={{ marginTop: '20px', marginBottom: '20px', width: '300px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        />
-        <select
-          value={priceOrder}
-          onChange={handlePriceOrderChange}
-          className="form-control"
-          style={{ marginTop: '20px', marginBottom: '20px', width: '150px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        >
-          <option value="">Sort by Price</option>
-          <option value="lowToHigh">Low to High</option>
-          <option value="highToLow">High to Low</option>
-        </select>
+      <div className="row justify-content-center">
+        <div className="col-md-4 mb-3">
+          <DatePicker
+            selected={selectedDate}
+            onChange={handleDateChange}
+            placeholderText="Select Date"
+            dateFormat="dd-MM-yyyy"
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-4 mb-3">
+          <input
+            type="text"
+            value={searchInput}
+            onChange={handleSearchInputChange}
+            placeholder="Search by service, availability, or location"
+            className="form-control"
+          />
+        </div>
+        <div className="col-md-4 mb-3">
+          <select
+            value={priceOrder}
+            onChange={handlePriceOrderChange}
+            className="form-control"
+          >
+            <option value="">Sort by Price</option>
+            <option value="lowToHigh">Low to High</option>
+            <option value="highToLow">High to Low</option>
+          </select>
+        </div>
       </div>
 
       <div className="d-flex justify-content-center">
@@ -162,7 +172,7 @@ const Home = () => {
       </div>
 
       {selectedService && (
-        <Modal show={showModal} onHide={handleClose}>
+        <Modal show={showModal} onHide={handleClose} dialogClassName="modal-90w">
           <Modal.Header closeButton>
             <Modal.Title>{selectedService.name}</Modal.Title>
           </Modal.Header>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import Swal from 'sweetalert2';
+import LoadingComponent from '../message/LoadingComponent';
+import ErrorPage from '../message/ErrorPage';
 
 const ServicesTab = () => {
   const [services, setServices] = useState([]);
@@ -14,13 +16,17 @@ const ServicesTab = () => {
     description: '',
     price: 0
   });
-
+  const user = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('https://capstone-be-den4.onrender.com/api/cleaningservices/getAllCleaningServices/');
+        const response = await axios.get('http://localhost:3000/api/cleaningservices/getAllCleaningServices/',{
+          headers: {
+              Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+          },
+      });
         setServices(response.data);
       } catch (err) {
         setError('Error fetching services');
@@ -54,7 +60,11 @@ const ServicesTab = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`https://capstone-be-den4.onrender.com/api/cleaningservices/${selectedService._id}`, updatedService);
+      await axios.put(`http://localhost:3000/api/cleaningservices/${selectedService._id}`, updatedService,{
+        headers: {
+            Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+        },
+    });
       // Update the services array to reflect changes
       const updatedServices = services.map(service => {
         if (service._id === selectedService._id) {
@@ -88,7 +98,11 @@ const ServicesTab = () => {
 
   const handleDelete = async (serviceId) => {
     try {
-      await axios.delete(`https://capstone-be-den4.onrender.com/api/cleaningservices/${serviceId}`);
+      await axios.delete(`http://localhost:3000/api/cleaningservices/${serviceId}`,{
+        headers: {
+            Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+        },
+    });
       // Filter out the deleted service from the services array
       const updatedServices = services.filter(service => service._id !== serviceId);
       setServices(updatedServices);
@@ -110,15 +124,15 @@ const ServicesTab = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-center my-3" >Services</h2>
+    <div className="services-tab-container">
+      <h2 className="text-center my-3">Services</h2>
       {loading ? (
-        <p>Loading...</p>
+        <p><LoadingComponent /></p>
       ) : error ? (
-        <p>Error: {error}</p>
+        <p><ErrorPage error={error} /></p>
       ) : (
         <>
-          <Table striped bordered hover>
+          <Table striped bordered hover responsive>
             <thead>
               <tr>
                 <th>Serial No</th>

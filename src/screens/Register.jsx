@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -16,30 +17,45 @@ const Signup = () => {
     repeatPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Repeat Password is required'),
   });
 
-  const handleSubmit = ({ username, email, password, repeatPassword }) => {
-    axios.post('https://capstone-be-den4.onrender.com/api/users/register', {
-      username,
-      email,
-      password,
-      repeatPassword
-    })
-    .then(response => {
+  const handleSubmit = async ({ username, email, password, repeatPassword }) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/users/register', {
+        username,
+        email,
+        password,
+        repeatPassword
+      });
+
       if (response.status === 201) {
         navigate('/login');
-        toast.success('Registration successful');
+        Swal.fire({
+          icon: 'success',
+          title: 'Registration successful',
+          showConfirmButton: false,
+          timer: 1500
+        });
       } else {
         console.error('Unexpected status code:', response.status);
-        toast.error('Unexpected server response');
+        Swal.fire({
+          icon: 'error',
+          title: 'Unexpected server response',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
-    })
-    .catch(err => {
+    } catch (err) {
       console.error('Registration failed:', err);
-      toast.error('Registration failed');
-    });
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration failed',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
   };
 
   return (
-    <section className="vh-100" style={{ backgroundColor: "#eee" }}>
+    <section className="vh-100" style={{ backgroundImage: `url(https://img.freepik.com/free-vector/abstract-watercolor-pastel-background_87374-139.jpg?t=st=1715597294~exp=1715600894~hmac=d19587c2a68906da2c84f39be30fe5fe21cec0adc37814b8f0c6c8afc7562952&w=900)`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <ToastContainer />
       <div className="container h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
@@ -61,46 +77,30 @@ const Signup = () => {
                     >
                       {formik => (
                         <Form className="mx-1 mx-md-4" onSubmit={formik.handleSubmit}>
-                          <div className="d-flex flex-row align-items-center mb-4">
-                            <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                            <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                              <Field type="text" id="username" name="username" className="form-control" />
-                              <label className="form-label" htmlFor="username">Your Name</label>
-                              <ErrorMessage name="username" component="div" className="text-danger" />
-                            </div>
+                          <div className="mb-4">
+                            <Field type="text" id="username" name="username" className="form-control" placeholder="Your Name" />
+                            <ErrorMessage name="username" component="div" className="text-danger" />
                           </div>
-                          <div className="d-flex flex-row align-items-center mb-4">
-                            <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                            <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                              <Field type="email" id="email" name="email" className="form-control" />
-                              <label className="form-label" htmlFor="email">Your Email</label>
-                              <ErrorMessage name="email" component="div" className="text-danger" />
-                            </div>
+                          <div className="mb-4">
+                            <Field type="email" id="email" name="email" className="form-control" placeholder="Your Email" />
+                            <ErrorMessage name="email" component="div" className="text-danger" />
                           </div>
-                          <div className="d-flex flex-row align-items-center mb-4">
-                            <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                            <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                              <Field type="password" id="password" name="password" className="form-control" />
-                              <label className="form-label" htmlFor="password">Password</label>
-                              <ErrorMessage name="password" component="div" className="text-danger" />
-                            </div>
+                          <div className="mb-4">
+                            <Field type="password" id="password" name="password" className="form-control" placeholder="Password" />
+                            <ErrorMessage name="password" component="div" className="text-danger" />
                           </div>
-                          <div className="d-flex flex-row align-items-center mb-4">
-                            <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                            <div data-mdb-input-init className="form-outline flex-fill mb-0">
-                              <Field type="password" id="repeatPassword" name="repeatPassword" className="form-control" />
-                              <label className="form-label" htmlFor="repeatPassword">Repeat your password</label>
-                              <ErrorMessage name="repeatPassword" component="div" className="text-danger" />
-                            </div>
+                          <div className="mb-4">
+                            <Field type="password" id="repeatPassword" name="repeatPassword" className="form-control" placeholder="Repeat your password" />
+                            <ErrorMessage name="repeatPassword" component="div" className="text-danger" />
                           </div>
-                          <div className="form-check d-flex justify-content-center mb-5">
+                          <div className="form-check mb-4">
                             <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
                             <label className="form-check-label" htmlFor="form2Example3c">
                               I agree all statements in <a href="#!">Terms of service</a>
                             </label>
                           </div>
-                          <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                            <button type="submit" data-mdb-button-init data-mdb-ripple-init className="btn btn-primary btn-lg">Register</button>
+                          <div className="d-grid">
+                            <button type="submit" className="btn btn-primary btn-lg">Register</button>
                           </div>
                         </Form>
                       )}

@@ -15,9 +15,10 @@ const RatingAndReview = () => {
     const [showToast, setShowToast] = useState(false);
     const [reviews, setReviews] = useState([]);
 
+    const user = JSON.parse(localStorage.getItem('currentUser'));
     useEffect(() => {
         // Check if user is logged in
-        const user = JSON.parse(localStorage.getItem('currentUser'));
+       
         if (user) {
             setCurrentUser(user);
             setName(user.username);
@@ -30,7 +31,11 @@ const RatingAndReview = () => {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get('https://capstone-be-den4.onrender.com/api/rating/all');
+            const response = await axios.get('http://localhost:3000/api/rating/all', {
+                headers: {
+                    Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+                },
+            });
             setReviews(response.data);
         } catch (error) {
             console.error('Error fetching reviews:', error);
@@ -59,7 +64,11 @@ const RatingAndReview = () => {
         };
 
         // Submit the form data to the backend API endpoint using Axios
-        axios.post('https://capstone-be-den4.onrender.com/api/rating/rating', requestData)
+        axios.post('http://localhost:3000/api/rating/rating', requestData, {
+            headers: {
+                Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+            },
+        })
             .then(response => {
                 console.log(response.data); // Log the response data for debugging
                 if (response.status === 201) {
@@ -141,13 +150,14 @@ const RatingAndReview = () => {
                 </Col>
             </Row>
             <h2 className="mt-5 mb-4 text-primary">People Review About Us</h2>
-            <Row xs={1} sm={2} md={3} className="justify-content-center">
+            <Row xs={1} sm={2} md={3} lg={4} className="justify-content-center">
                 {reviews.map((review, index) => (
                     <Col key={index} className="mb-4">
                         <Card style={{
                             background: 'linear-gradient(to bottom right, #b3e0ff, #b3ffb3)',
                             padding: '1rem',
                             borderRadius: '10px',
+                            height: '100%'
                         }}>
                             <Card.Body className='text-center'>
                                 <Card.Title style={{
@@ -175,8 +185,6 @@ const RatingAndReview = () => {
                                 <StarRating rating={review.starRating} color="#ff0000" />
                             </Card.Body>
                         </Card>
-
-
                     </Col>
                 ))}
             </Row>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import './head.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const runningAnimation = keyframes`
   0% {
     transform: translateY(0);
@@ -90,13 +91,17 @@ const HeaderContent = () => {
       [name]: value
     }));
   };
-
+  const user = JSON.parse(localStorage.getItem('currentUser'));
   const handleSubmit = e => {
     e.preventDefault();
     // Handle form submission here
     
     // Example: Submitting the form data to an API endpoint using axios
-    axios.post('https://capstone-be-den4.onrender.com/api/quote/quote', formData)
+    axios.post('http://localhost:3000/api/quote/quote', formData,{
+      headers: {
+          Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+      },
+  })
       .then(response => {
         console.log(response.data); // Log the response data for debugging
         if (response.status === 201) {
@@ -123,7 +128,7 @@ const HeaderContent = () => {
           <div className="col-lg-6 col-xl-5">
             <div className="image-container">
               <div className="">
-                <img className="img-fluid-0" src="https://t4.ftcdn.net/jpg/05/78/61/03/360_F_578610304_3AxU7UsNrKyxj0IlgukFpLgX3I9EftX4.jpg" alt="" />
+                <img className="img-fluid-0 my-3" src="https://t4.ftcdn.net/jpg/05/78/61/03/360_F_578610304_3AxU7UsNrKyxj0IlgukFpLgX3I9EftX4.jpg" alt="" />
               </div>
             </div>
           </div>

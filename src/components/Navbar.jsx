@@ -5,7 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(null);
-
+  
   useEffect(() => {
     // Check if user is logged in
     const user = JSON.parse(localStorage.getItem('currentUser'));
@@ -18,6 +18,7 @@ const Navbar = () => {
     // Clear user information from local storage upon logout
     localStorage.removeItem('currentUser');
     setCurrentUser(null);
+
   };
 
   return (
@@ -93,7 +94,7 @@ const Navbar = () => {
                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
                   <li><a className="dropdown-item" href="/profile">My profile</a></li>
                   
-                  <li><a className="dropdown-item" href="#" onClick={handleLogout}>Logout</a></li>
+                  <li><a className="dropdown-item" href="/login" onClick={handleLogout}>Logout</a></li>
                 </ul>
               </div>
             </>

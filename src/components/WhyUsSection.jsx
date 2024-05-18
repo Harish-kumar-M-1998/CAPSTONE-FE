@@ -27,6 +27,10 @@ const Card = styled.div`
     animation: ${cardHoverAnimation} 0.3s ease infinite;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
   }
+
+  @media (max-width: 767px) {
+    margin: 10px 0;
+  }
 `;
 
 // Styled components for card image
@@ -55,6 +59,7 @@ const CardBody = styled.div`
     line-height: 1.6;
   }
 `;
+
 const WhyUsWrapper = styled.div`
   text-align: center;
 `;
@@ -62,6 +67,10 @@ const WhyUsWrapper = styled.div`
 const Heading = styled.h2`
   font-size: 24px; /* Adjust font size as needed */
   line-height: 1.5; /* Adjust line height as needed */
+
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
 `;
 
 const WhyUsSection = () => {
@@ -69,43 +78,49 @@ const WhyUsSection = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
-        <WhyUsWrapper>
-      <div className="above-heading" style={{color:'#48C9B0'}}>WHY US</div>
-      <Heading className="h2-heading" style ={{color:'#B03A2E '}}>Our professional and efficient team provides impeccable service, making life a little easier.</Heading>
-    </WhyUsWrapper>
+          <WhyUsWrapper>
+            <div className="above-heading" style={{ color: '#48C9B0' }}>WHY US</div>
+            <Heading className="h2-heading" style={{ color: '#B03A2E ' }}>Our professional and efficient team provides impeccable service, making life a little easier.</Heading>
+          </WhyUsWrapper>
         </div>
       </div>
       <div className="row">
         {/* Card 1 */}
-        <Card className="col-md-4">
-          <CardImage className="card-image">
-            <img className="img-fluid" src="https://cleanease.ca/images/group.svg" alt="alternative" />
-          </CardImage>
-          <CardBody className="card-body">
-            <h4 className="card-title" style={{color :'#76448A  '}}>Our Trusted Team</h4>
-            <p style={{color:'#17A589 '}}>From deep cleaning to decluttering, we are proven to reduce stress and improve happiness in your home or workplace.</p>
-          </CardBody>
-        </Card>
+        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <Card>
+            <CardImage className="card-image">
+              <img className="img-fluid my-1" src="https://cleanease.ca/images/group.svg" alt="alternative" />
+            </CardImage>
+            <CardBody className="card-body">
+              <h4 className="card-title" style={{ color: '#76448A  ' }}>Our Trusted Team</h4>
+              <p style={{ color: '#17A589 ' }}>From deep cleaning to decluttering, we are proven to reduce stress and improve happiness.</p>
+            </CardBody>
+          </Card>
+        </div>
         {/* Card 2 */}
-        <Card className="col-md-4">
-          <CardImage className="card-image">
-            <img className="img-fluid" src="https://cleanease.ca/images/relax.svg" alt="alternative" />
-          </CardImage>
-          <CardBody className="card-body">
-            <h4 className="card-title" style={{color :'#76448A  '}}>Clear your space, Clear your mind</h4>
-            <p style={{color:'#17A589  '}}>Let us make life a little easier for you with our professional expertise.</p>
-          </CardBody>
-        </Card>
+        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <Card>
+            <CardImage className="card-image">
+              <img className="img-fluid my-1" src="https://cleanease.ca/images/relax.svg" alt="alternative" />
+            </CardImage>
+            <CardBody className="card-body">
+              <h4 className="card-title" style={{ color: '#76448A  ' }}>Clear your space, Clear your mind</h4>
+              <p style={{ color: '#17A589  ' }}>Let us make life a little easier for you with our professional expertise.</p>
+            </CardBody>
+          </Card>
+        </div>
         {/* Card 3 */}
-        <Card className="col-md-4">
-          <CardImage className="card-image">
-            <img className="img-fluid" src="https://cleanease.ca/images/spray.svg" alt="alternative" />
-          </CardImage>
-          <CardBody className="card-body">
-            <h4 className="card-title" style={{color :'#76448A  '}}>CleanEase Satisfaction Guarantee</h4>
-            <p style={{color:'#17A589 '}}>Going above and beyond to achieve your complete satisfaction.</p>
-          </CardBody>
-        </Card>
+        <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+          <Card>
+            <CardImage className="card-image">
+              <img className="img-fluid my-1" src="https://cleanease.ca/images/spray.svg" alt="alternative" />
+            </CardImage>
+            <CardBody className="card-body">
+              <h4 className="card-title" style={{ color: '#76448A  ' }}>CleanEase Satisfaction Guarantee</h4>
+              <p style={{ color: '#17A589 ' }}>Going above and beyond to achieve your complete satisfaction.</p>
+            </CardBody>
+          </Card>
+        </div>
       </div>
     </div>
   );

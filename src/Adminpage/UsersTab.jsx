@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, Spinner, Alert, Row, Col, Button } from 'react-bootstrap';
+import LoadingComponent from '../message/LoadingComponent';
 
 const UsersTab = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const user = JSON.parse(localStorage.getItem('currentUser'));
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('https://capstone-be-den4.onrender.com/api/users/users');
+        const response = await axios.get('http://localhost:3000/api/users/users');
         setUsers(response.data);
       } catch (err) {
         setError('Error fetching users');
@@ -26,7 +27,11 @@ const UsersTab = () => {
 
   const updateUserToAdmin = async (userId) => {
     try {
-      await axios.put(`https://capstone-be-den4.onrender.com/api/users/${userId}`, { isAdmin: true });
+      await axios.put(`http://localhost:3000/api/users/${userId}`, { isAdmin: true },{
+        headers: {
+            Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+        },
+    });
       // Update the users list after successful update
       const updatedUsers = users.map(user => {
         if (user._id === userId) {
@@ -42,7 +47,11 @@ const UsersTab = () => {
 
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`https://capstone-be-den4.onrender.com/api/users/${userId}`);
+      await axios.delete(`http://localhost:3000/api/users/${userId}`,{
+        headers: {
+            Authorization: `Bearer ${user.token}`, // Include the token in the request headers
+        },
+    });
       // Remove the deleted user from the users list
       const updatedUsers = users.filter(user => user._id !== userId);
       setUsers(updatedUsers);
@@ -52,11 +61,11 @@ const UsersTab = () => {
   };
 
   return (
-    <div>
+    <div style = {{background: 'linear-gradient(to bottom right, #a0c4ff, #ffffff)'}}>
       <h2 className="text-center my-3">Users</h2>
       {loading ? (
         <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only"><LoadingComponent /></span>
         </Spinner>
       ) : error ? (
         <Alert variant="danger">{error}</Alert>
