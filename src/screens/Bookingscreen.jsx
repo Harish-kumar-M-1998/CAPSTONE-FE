@@ -24,7 +24,7 @@ const Bookingscreen = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(`http://localhost:3000/api/cleaningservices/getCleaningServiceById/${serviceid}`,{
+        const response = await axios.get(`https://capstone-be-den4.onrender.com/api/cleaningservices/getCleaningServiceById/${serviceid}`,{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
@@ -81,7 +81,7 @@ const Bookingscreen = () => {
       setError(null);
   
       // Check if the user has already booked the service for the selected date
-      const existingBookingResponse = await axios.get(`http://localhost:3000/api/bookings/bookings/checkAvailability`, {
+      const existingBookingResponse = await axios.get(`https://capstone-be-den4.onrender.com/api/bookings/bookings/checkAvailability`, {
         params: {
           serviceId: serviceid,
           serviceDate: selectedDate
@@ -111,7 +111,7 @@ const Bookingscreen = () => {
       };
   
       // Assuming the API endpoint for booking creation
-      const response = await axios.post('http://localhost:3000/api/bookings/bookings', bookingData,{
+      const response = await axios.post('https://capstone-be-den4.onrender.com/api/bookings/bookings', bookingData,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },

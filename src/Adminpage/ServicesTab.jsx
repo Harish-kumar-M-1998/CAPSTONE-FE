@@ -22,7 +22,7 @@ const ServicesTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:3000/api/cleaningservices/getAllCleaningServices/',{
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/cleaningservices/getAllCleaningServices/',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
@@ -60,7 +60,7 @@ const ServicesTab = () => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:3000/api/cleaningservices/${selectedService._id}`, updatedService,{
+      await axios.put(`https://capstone-be-den4.onrender.com/api/cleaningservices/${selectedService._id}`, updatedService,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },
@@ -98,7 +98,7 @@ const ServicesTab = () => {
 
   const handleDelete = async (serviceId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/cleaningservices/${serviceId}`,{
+      await axios.delete(`https://capstone-be-den4.onrender.com/api/cleaningservices/${serviceId}`,{
         headers: {
             Authorization: `Bearer ${user.token}`, // Include the token in the request headers
         },

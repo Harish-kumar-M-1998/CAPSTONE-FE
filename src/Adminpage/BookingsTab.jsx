@@ -15,7 +15,7 @@ const BookingsTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:3000/api/bookings/bookings',{
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/bookings/bookings',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },
@@ -44,7 +44,7 @@ const BookingsTab = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`http://localhost:3000/api/bookings/${bookingId}`,{
+        await axios.delete(`https://capstone-be-den4.onrender.com/api/bookings/${bookingId}`,{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },

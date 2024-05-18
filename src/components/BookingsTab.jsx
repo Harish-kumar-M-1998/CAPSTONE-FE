@@ -18,7 +18,7 @@ const BookingsTab = () => {
         // Assume the user information is stored in localStorage
        
         if (user && user.username) {
-          const response = await axios.get(`http://localhost:3000/api/bookings?username=${user.username}`,{
+          const response = await axios.get(`https://capstone-be-den4.onrender.com/api/bookings?username=${user.username}`,{
             headers: {
                 Authorization: `Bearer ${user.token}`, // Include the token in the request headers
             },
@@ -48,7 +48,7 @@ const BookingsTab = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.put(`http://localhost:3000/api/bookings/${bookingId}`, { status: 'Cancelled' });
+        await axios.put(`https://capstone-be-den4.onrender.com/api/bookings/${bookingId}`, { status: 'Cancelled' });
         // After cancellation, refetch the bookings to update the UI
         fetchUserBookings();
         Swal.fire('Cancelled!', 'Your booking has been cancelled.', 'success');

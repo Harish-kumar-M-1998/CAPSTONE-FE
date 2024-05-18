@@ -31,7 +31,7 @@ const RatingAndReview = () => {
 
     const fetchReviews = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/rating/all', {
+            const response = await axios.get('https://capstone-be-den4.onrender.com/api/rating/all', {
                 headers: {
                     Authorization: `Bearer ${user.token}`, // Include the token in the request headers
                 },
@@ -64,7 +64,7 @@ const RatingAndReview = () => {
         };
 
         // Submit the form data to the backend API endpoint using Axios
-        axios.post('http://localhost:3000/api/rating/rating', requestData, {
+        axios.post('https://capstone-be-den4.onrender.com/api/rating/rating', requestData, {
             headers: {
                 Authorization: `Bearer ${user.token}`, // Include the token in the request headers
             },

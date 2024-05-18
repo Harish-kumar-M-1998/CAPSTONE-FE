@@ -28,7 +28,7 @@ const Home = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get('http://localhost:3000/api/cleaningservices/getAllCleaningServices/',{
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/cleaningservices/getAllCleaningServices/',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },

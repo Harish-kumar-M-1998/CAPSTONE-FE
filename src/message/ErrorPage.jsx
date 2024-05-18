@@ -43,7 +43,7 @@ const errorStyles = `
 const ErrorPage = () => (
   <>
     <style>{errorStyles}</style>
-    <ErrorComponent error="Something went wrong!" />
+    <ErrorComponent error="Something went wrong! Please Login  !!!!!" />
   </>
 );
 

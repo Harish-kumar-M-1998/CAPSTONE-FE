@@ -14,7 +14,7 @@ const QuoteTab = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get('http://localhost:3000/api/quote/quote',{
+        const response = await axios.get('https://capstone-be-den4.onrender.com/api/quote/quote',{
           headers: {
               Authorization: `Bearer ${user.token}`, // Include the token in the request headers
           },

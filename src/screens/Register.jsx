@@ -19,7 +19,7 @@ const Signup = () => {
 
   const handleSubmit = async ({ username, email, password, repeatPassword }) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/users/register', {
+      const response = await axios.post('https://capstone-be-den4.onrender.com/api/users/register', {
         username,
         email,
         password,
